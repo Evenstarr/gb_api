@@ -5,6 +5,8 @@ app_key = "F0B65862-3097-4399-8550-C88FEB30F41B"
 
 file_name = "output.json"
 
+####
+
 # Там много методов, этот показывает доступные упаковки
 url = "https://api.dellin.ru/v1/public/packages_available.json"
 
