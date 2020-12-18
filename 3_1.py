@@ -63,8 +63,8 @@ def parse_vacancy(vacancy, vacancy_item):
                 salary_max = salary[1][1]
             elif salary[0][0] != "По договорённости":
                 if len(salary) > 1:
-                    salary_min = salary[0][1]
-                    salary_max = salary[1][1]
+                    salary_min = int(salary[0][1])
+                    salary_max = int(salary[1][1])
                 else:
                     salary_min, salary_max = salary[0][1], salary[0][1]
 
@@ -75,6 +75,10 @@ def parse_vacancy(vacancy, vacancy_item):
             except IndexError:
                 pass
 
+    if salary_max:
+        salary_max = int(salary_max)
+    if salary_min:
+        salary_min = int(salary_min)
     return {'name': vacancy_name, 'url': vacancy_item.get('url'), 'vid': vid, 'link': vacancy_link, 'salary_min': salary_min, 'salary_max': salary_max,
             'salary_currency': salary_currency}
 
