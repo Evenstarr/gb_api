@@ -29,6 +29,11 @@ def parse_vacancy(vacancy, vacancy_item):
     else:
         vacancy_link = link['href']
 
+    if vacancy_item.get('url') == 'https://spb.hh.ru':
+        vid = link['data-vacancy-id']
+    else:
+        vid = link['href'].split(".")[0].split("-")[-1]
+
     salary = vacancy.find('span', vacancy_salary)
     if salary:
         s_text = salary.text.replace(u'\xa0', u'')
@@ -70,7 +75,7 @@ def parse_vacancy(vacancy, vacancy_item):
             except IndexError:
                 pass
 
-    return {'name': vacancy_name, 'link': vacancy_link, 'salary_min': salary_min, 'salary_max': salary_max,
+    return {'name': vacancy_name, 'url': vacancy_item.get('url'), 'vid': vid, 'link': vacancy_link, 'salary_min': salary_min, 'salary_max': salary_max,
             'salary_currency': salary_currency}
 
 
@@ -117,13 +122,13 @@ for item in sites:
 
         path = is_next['href']
 
+
 client = MongoClient('localhost', 27017)
 
 db = client['test_db']
 collection = db.vacancies
 
 db.collection.insert_many(vacancies)
-
 
 # df = pd.DataFrame(vacancies)
 # # csv None не хочет писать. А оно там есть.
